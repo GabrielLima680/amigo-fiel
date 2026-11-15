@@ -20,7 +20,7 @@ fetch('/api/pets')
         <h2 style="margin: 10px 0 5px;">${pet.nome}</h2>
         <p style="margin: 5px 0; color: #555;">${pet.tipo} • ${pet.idade}</p>
         <p style="margin: 5px 0; color: #888;">📍 ${pet.cidade}</p>
-        <button style="background: #ff6b35; color: white; border: none; padding: 10px 20px; border-radius: 20px; margin-top: 10px; font-size: 16px; cursor: pointer;">Quero Adotar ❤️</button>
+        <button onclick="alert('Você escolheu o ${pet.nome}! ❤️ Entre em contato para adotar!')" style="background: #ff6b35; color: white; border: none; padding: 10px 20px; border-radius: 20px; margin-top: 10px; font-size: 16px; cursor: pointer;">Quero Adotar ❤️</button>
       </div>
     `).join('')
   })
