@@ -6,6 +6,9 @@ app.innerHTML = `
       <h1 style="font-size: 42px; margin: 0;">🐾 Amigo Fiel 🐾</h1>
       <p style="font-size: 20px; margin: 10px 0 0;">Adote um amigo em Paraguaçu Paulista!</p>
       <p style="font-size: 16px; margin: 10px 0 0; opacity: 0.9;">Tem um Thor, uma Mia e um Bolt esperando um lar cheio de amor ❤️</p>
+      <div style="background: white; color: #2f9e44; display: inline-block; padding: 8px 16px; border-radius: 20px; margin-top: 15px; font-weight: bold;">
+        <span id="status">Status da API: carregando...</span> - <span id="datahora"></span>
+      </div>
     </div>
 
     <div style="max-width: 900px; margin: 0 auto; padding: 20px; text-align: center;">
@@ -36,9 +39,12 @@ app.innerHTML = `
   </div>
 `
 
+document.querySelector('#datahora').textContent = new Date().toLocaleString('pt-BR')
+
 fetch('/api/pets')
   .then(r => r.json())
   .then(pets => {
+    document.querySelector('#status').textContent = 'Status da API: ok'
     const lista = document.querySelector('#lista')
     lista.innerHTML = pets.map(pet => `
       <div style="background: white; border: 2px solid #d6f5df; border-radius: 16px; padding: 20px; width: 220px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
