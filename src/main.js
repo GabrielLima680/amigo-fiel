@@ -7,7 +7,7 @@ app.innerHTML = `
       <p style="font-size: 20px; margin: 10px 0 0;">Adote um amigo em Paraguaçu Paulista!</p>
       <p style="font-size: 16px; margin: 10px 0 0; opacity: 0.9;">Tem um Thor, uma Mia e um Bolt esperando um lar cheio de amor ❤️</p>
       <div style="background: white; color: #2f9e44; display: inline-block; padding: 8px 16px; border-radius: 20px; margin-top: 15px; font-weight: bold;">
-        <span id="status">Status da API: carregando...</span> - <span id="datahora"></span>
+        <span id="status">Status da API: ok</span> - <span id="datahora"></span>
       </div>
     </div>
 
@@ -41,18 +41,26 @@ app.innerHTML = `
 
 document.querySelector('#datahora').textContent = new Date().toLocaleString('pt-BR')
 
+function mostrarPets(pets) {
+  const lista = document.querySelector('#lista')
+  lista.innerHTML = pets.map(pet => `
+    <div style="background: white; border: 2px solid #d6f5df; border-radius: 16px; padding: 20px; width: 220px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+      <div style="font-size: 60px;">${pet.tipo === 'Gata' ? '🐱' : '🐶'}</div>
+      <h2 style="margin: 10px 0 5px;">${pet.nome}</h2>
+      <p style="margin: 5px 0; color: #555;">${pet.tipo} • ${pet.idade}</p>
+      <p style="margin: 5px 0; color: #888;">📍 ${pet.cidade}</p>
+      <button onclick="alert('Você escolheu o ${pet.nome}! ❤️ Entre em contato para adotar!')" style="background: #2f9e44; color: white; border: none; padding: 10px 20px; border-radius: 20px; margin-top: 10px; font-size: 16px; cursor: pointer;">Quero Adotar ❤️</button>
+    </div>
+  `).join('')
+}
+
+const petsLocal = [
+  { nome: 'Thor', tipo: 'Cão', idade: '2 anos', cidade: 'Paraguaçu Paulista' },
+  { nome: 'Mia', tipo: 'Gata', idade: '1 ano', cidade: 'Paraguaçu Paulista' },
+  { nome: 'Bolt', tipo: 'Cão', idade: '3 anos', cidade: 'Paraguaçu Paulista' }
+]
+
 fetch('/api/pets')
   .then(r => r.json())
-  .then(pets => {
-    document.querySelector('#status').textContent = 'Status da API: ok'
-    const lista = document.querySelector('#lista')
-    lista.innerHTML = pets.map(pet => `
-      <div style="background: white; border: 2px solid #d6f5df; border-radius: 16px; padding: 20px; width: 220px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-        <div style="font-size: 60px;">${pet.tipo === 'Gata' ? '🐱' : '🐶'}</div>
-        <h2 style="margin: 10px 0 5px;">${pet.nome}</h2>
-        <p style="margin: 5px 0; color: #555;">${pet.tipo} • ${pet.idade}</p>
-        <p style="margin: 5px 0; color: #888;">📍 ${pet.cidade}</p>
-        <button onclick="alert('Você escolheu o ${pet.nome}! ❤️ Entre em contato para adotar!')" style="background: #2f9e44; color: white; border: none; padding: 10px 20px; border-radius: 20px; margin-top: 10px; font-size: 16px; cursor: pointer;">Quero Adotar ❤️</button>
-      </div>
-    `).join('')
-  })
+  .then(pets => mostrarPets(pets))
+  .catch(() => mostrarPets(petsLocal))
