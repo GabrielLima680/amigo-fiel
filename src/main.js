@@ -1,26 +1,26 @@
-import './style.css'
+const app = document.querySelector('#app')
 
-fetch('/api/health')
-  .then(function(r) { return r.json() })
-  .then(function(saude) {
-    var status = 'API: offline'
-    if (saude.status === 'ok') {
-      status = 'API: online'
-    }
+app.innerHTML = `
+  <div style="font-family: Arial; max-width: 900px; margin: 0 auto; padding: 20px; text-align: center;">
+    <h1 style="color: #ff6b35;">🐾 Amigo Fiel 🐾</h1>
+    <p style="color: #666; font-size: 18px;">Adote um amigo em Paragominas!</p>
+    <div id="lista" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
+      <p>Carregando pets...</p>
+    </div>
+  </div>
+`
 
-    return fetch('/api/pets')
-      .then(function(r) { return r.json() })
-      .then(function(pets) {
-        var html = '<h1>Amigo Fiel</h1><p>Adote um amigo!</p><p>' + status + '</p>'
-
-        pets.forEach(function(p) {
-          html += '<div class="card"><h2>' + p.nome + '</h2><p>' + p.tipo + '</p><p>' + p.idade + '</p><p>' + p.cidade + '</p><button>Quero Adotar</button></div>'
-        })
-
-        document.querySelector('#app').innerHTML = html
-        document.querySelectorAll('button').forEach(function(b,i) {
-  b.addEventListener('click', function() {
-    alert('Voce quer adotar o ' + pets[i].nome + '! A ONG Amigo Fiel vai entrar em contato com voce!')  })
-})
-      })
+fetch('/api/pets')
+  .then(r => r.json())
+  .then(pets => {
+    const lista = document.querySelector('#lista')
+    lista.innerHTML = pets.map(pet => `
+      <div style="background: white; border: 2px solid #ffe0d0; border-radius: 16px; padding: 20px; width: 220px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        <div style="font-size: 60px;">${pet.tipo === 'Gata' ? '🐱' : '🐶'}</div>
+        <h2 style="margin: 10px 0 5px;">${pet.nome}</h2>
+        <p style="margin: 5px 0; color: #555;">${pet.tipo} • ${pet.idade}</p>
+        <p style="margin: 5px 0; color: #888;">📍 ${pet.cidade}</p>
+        <button style="background: #ff6b35; color: white; border: none; padding: 10px 20px; border-radius: 20px; margin-top: 10px; font-size: 16px; cursor: pointer;">Quero Adotar ❤️</button>
+      </div>
+    `).join('')
   })
