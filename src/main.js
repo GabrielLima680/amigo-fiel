@@ -3,7 +3,7 @@ const app = document.querySelector('#app')
 app.innerHTML = `
   <div style="font-family: Arial; max-width: 900px; margin: 0 auto; padding: 20px; text-align: center;">
     <h1 style="color: #ff6b35;">🐾 Amigo Fiel 🐾</h1>
-    <p style="color: #666; font-size: 18px;">Adote um amigo em Paragominas!</p>
+    <p style="color: #666; font-size: 18px;">Adote um amigo em Paraguaçu Paulista!</p>
     <div id="lista" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
       <p>Carregando pets...</p>
     </div>
